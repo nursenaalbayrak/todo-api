@@ -68,6 +68,6 @@ export class TodosService {
       query.andWhere('todo.title ILIKE :title', { title: `%${filters.title}%` });
     }
 
-    return query.getMany(); // 🔥 GEREKLİ RETURN SATIRI
+    return query.getMany();
   }
 }
