@@ -4,6 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from './todos/todos.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { LabelsModule } from './labels/labels.module';
+import { Label } from './labels/label.entity';
+import { User } from './users/user.entity';
+import { Todo } from './todos/todo.entity';
 
 
 
@@ -20,11 +24,13 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
+      entities: [User,Todo,Label],
       synchronize: true,
     }),
     UsersModule,
     TodosModule,
     AuthModule,
+    LabelsModule,
   ],
 })
 export class AppModule {}

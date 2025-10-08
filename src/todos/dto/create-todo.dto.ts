@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsOptional, IsEnum, IsDateString } from 'class-validator';
+import { 
+  IsNotEmpty, 
+  IsOptional, 
+  IsEnum, 
+  IsDateString, 
+  IsArray, 
+  IsNumber 
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateTodoDto {
   @IsNotEmpty()
@@ -14,4 +22,10 @@ export class CreateTodoDto {
   @IsOptional()
   @IsEnum(['low', 'medium', 'high'])
   priority?: 'low' | 'medium' | 'high';
+
+  @IsOptional()
+  @IsArray()
+  @Type(() => Number)
+  @IsNumber({}, { each: true })
+  labelIds?: number[];
 }

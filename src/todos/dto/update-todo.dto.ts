@@ -14,4 +14,7 @@ export class UpdateTodoDto {
   @IsOptional()
   @IsEnum(['low', 'medium', 'high'])
   priority?: 'low' | 'medium' | 'high';
+
+  @IsOptional()
+  labelIds?: number[];
 }

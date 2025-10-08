@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { Label } from 'src/labels/label.entity';
+import { ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class Todo {
@@ -24,6 +26,10 @@ export class Todo {
 
   @Column({ type: 'enum', enum: ['low', 'medium', 'high'], default: 'medium' })
   priority: 'low' | 'medium' | 'high';
+
+  @ManyToMany(() => Label, (label) => label.todos, { cascade: true })
+  @JoinTable()
+  labels: Label[];
 
   @ManyToOne(() => User, { eager: false, nullable: false, onDelete: 'CASCADE' })
   user: User;
