@@ -1,13 +1,17 @@
-import { IsOptional, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsEnum, IsDateString } from 'class-validator';
 
 export class CreateTodoDto {
-  @ApiProperty({ example: 'Alışveriş yap', description: 'Görev başlığı' })
-  @IsString()
+  @IsNotEmpty()
   title: string;
 
-  @ApiProperty({ example: 'Market alışverişi yap', description: 'Açıklama', required: false })
   @IsOptional()
-  @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadline?: string;
+
+  @IsOptional()
+  @IsEnum(['low', 'medium', 'high'])
+  priority?: 'low' | 'medium' | 'high';
 }

@@ -18,8 +18,13 @@ export class Todo {
   @CreateDateColumn()
   createdAt: Date;
 
+  // 🆕 EKLENDİ
+  @Column({ type: 'date', nullable: true })
+  deadline: Date;
+
+  @Column({ type: 'enum', enum: ['low', 'medium', 'high'], default: 'medium' })
+  priority: 'low' | 'medium' | 'high';
+
   @ManyToOne(() => User, { eager: false, nullable: false, onDelete: 'CASCADE' })
   user: User;
 }
-
-

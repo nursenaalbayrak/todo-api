@@ -1,14 +1,17 @@
-import { IsOptional, IsString } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional, IsEnum, IsDateString } from 'class-validator';
 
 export class UpdateTodoDto {
   @IsOptional()
-  @IsString()
-  @ApiProperty({ required: false, example: 'Kitap oku', description: 'Görevin başlığı' })
   title?: string;
 
   @IsOptional()
-  @IsString()
-  @ApiProperty({ required: false, example: 'Her gün 30 sayfa kitap oku', description: 'Görevin açıklaması' })
   description?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadline?: string;
+
+  @IsOptional()
+  @IsEnum(['low', 'medium', 'high'])
+  priority?: 'low' | 'medium' | 'high';
 }
