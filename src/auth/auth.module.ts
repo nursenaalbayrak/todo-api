@@ -10,14 +10,14 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    UsersModule,
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'gizliAnahtar', 
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
+  ConfigModule.forRoot({ isGlobal: true }),
+  UsersModule,
+  PassportModule.register({ defaultStrategy: 'jwt' }),
+  JwtModule.register({
+    secret: process.env.JWT_SECRET || 'gizliAnahtar', 
+    signOptions: { expiresIn: '1h' },
+  }),
+],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
 })

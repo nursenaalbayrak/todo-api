@@ -41,20 +41,22 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Kullanıcı bilgilerini güncelle' })
-  @ApiResponse({ status: 200, description: 'Kullanıcı başarıyla güncellendi' })
-  async updateUser(
-    @Req() req,
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateUserDto,
-  ) {
-    if (req.user.userId !== id) {
-      throw new UnauthorizedException('Kendi hesabınızı güncelleyebilirsiniz.');
-    }
-    return this.usersService.updateUser(id, body);
-  }
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@ApiOperation({ summary: 'Kullanıcı bilgilerini güncelle' })
+@ApiResponse({ status: 200, description: 'Kullanıcı başarıyla güncellendi' })
+async updateUser(
+  @Req() req,
+  @Param('id', ParseIntPipe) id: number,
+  @Body() body: UpdateUserDto,
+) {
+ 
+  if (req.user.userId !== id && req.user.role !== 'admin') {
+  throw new UnauthorizedException('Sadece kendi hesabınızı veya adminsiniz başkalarını güncelleyebilirsiniz.');
+}
+
+  return this.usersService.updateUser(id, body);
+}
 
   @Patch('change-password')
   @UseGuards(AuthGuard('jwt'))
@@ -77,17 +79,18 @@ export class UsersController {
     return this.usersService.findById(req.user.userId);
   }
 
-  @Delete(':id')
-  @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Kullanıcı sil' })
-  @ApiResponse({ status: 200, description: 'Kullanıcı başarıyla silindi' })
-  async deleteUser(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
-    if (req.user.userId !== id) {
-      throw new UnauthorizedException('Kendi hesabınızı silebilirsiniz.');
-    }
-    return this.usersService.deleteUser(id);
+ @Delete(':id')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@ApiOperation({ summary: 'Kullanıcı sil' })
+@ApiResponse({ status: 200, description: 'Kullanıcı başarıyla silindi' })
+async deleteUser(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+  if (req.user.userId !== id && req.user.role !== 'Admin') {
+    throw new UnauthorizedException('Sadece kendi hesabınızı veya adminseniz başkalarını silebilirsiniz.');
   }
+
+  return this.usersService.deleteUser(id);
+}
 
   @Get('all-users')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
