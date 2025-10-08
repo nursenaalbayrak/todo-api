@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 
-@ApiTags('Auth') // Swagger'da "Auth" başlığı altında gözükecek
+@ApiTags('Auth') 
 @Controller('auth')
 export class AuthController {
   constructor(
